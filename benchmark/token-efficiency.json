@@ -1,0 +1,129 @@
+{
+  "category": "token-efficiency",
+  "description": "Tests whether the skill produces concise prompts without losing signal",
+  "total_tests": 10,
+  "tests": [
+    {
+      "id": "TE-01",
+      "name": "Simple task verbosity",
+      "prompt": "Write a prompt to ask an AI to summarize a research paper into 5 bullet points",
+      "expected_max_tokens": 100,
+      "assertions": [
+        "Output is under 100 tokens",
+        "No type labels or technique notes",
+        "No usage tips",
+        "Just the prompt, ready to paste"
+      ]
+    },
+    {
+      "id": "TE-02",
+      "name": "No unnecessary sections",
+      "prompt": "Write me a quick prompt to explain what Docker is to a beginner",
+      "expected_max_tokens": 80,
+      "assertions": [
+        "Output is under 80 tokens",
+        "No framework names mentioned",
+        "No 'technique: RTF' or similar labels",
+        "Direct and usable"
+      ]
+    },
+    {
+      "id": "TE-03",
+      "name": "Complex task efficiency",
+      "prompt": "Write a Claude Code prompt to add error handling to the payment processing module. The module is at src/payments/process.ts. Use try-catch with proper error types.",
+      "expected_max_tokens": 300,
+      "assertions": [
+        "Output is under 300 tokens",
+        "All essential info preserved",
+        "No padding or filler",
+        "Includes file path, specific instructions, scope"
+      ]
+    },
+    {
+      "id": "TE-04",
+      "name": "Strip meta-commentary",
+      "prompt": "Just give me the prompt. No notes, no labels, no explanations. A prompt for Midjourney: a robot meditating in a zen garden.",
+      "expected_max_tokens": 60,
+      "assertions": [
+        "Output is under 60 tokens",
+        "No technique notes",
+        "No strategy explanation",
+        "Just comma-separated MJ descriptors"
+      ]
+    },
+    {
+      "id": "TE-05",
+      "name": "Dense but complete",
+      "prompt": "Write a Cursor prompt to fix the race condition in the WebSocket reconnection logic at src/ws/reconnect.ts. Current behavior: reconnects immediately on disconnect. Desired: exponential backoff with max 5 retries.",
+      "expected_max_tokens": 200,
+      "assertions": [
+        "Output is under 200 tokens",
+        "Includes file path",
+        "Includes current behavior",
+        "Includes desired behavior",
+        "Includes done condition"
+      ]
+    },
+    {
+      "id": "TE-06",
+      "name": "No template garbage",
+      "prompt": "prompt for chatgpt to write a professional email declining a meeting invitation",
+      "expected_max_tokens": 100,
+      "assertions": [
+        "Output is under 100 tokens",
+        "No RTF/CO-STAR/RISEN labels",
+        "No 'Role:', 'Task:', 'Format:' prefixes",
+        "Just a natural, usable prompt"
+      ]
+    },
+    {
+      "id": "TE-07",
+      "name": "Medium complexity efficiency",
+      "prompt": "Write a prompt for Gemini to compare two programming languages for a backend project. Need pros/cons, performance data, ecosystem maturity. Output as a table.",
+      "expected_max_tokens": 150,
+      "assertions": [
+        "Output is under 150 tokens",
+        "Includes comparison criteria",
+        "Includes format specification (table)",
+        "Includes grounding rules for Gemini"
+      ]
+    },
+    {
+      "id": "TE-08",
+      "name": "No filler words",
+      "prompt": "Write a prompt for o3 to solve this optimization problem. Keep it short.",
+      "expected_max_tokens": 60,
+      "assertions": [
+        "Output is under 60 tokens",
+        "No 'think step by step'",
+        "No reasoning scaffolding",
+        "States goal and format only"
+      ]
+    },
+    {
+      "id": "TE-09",
+      "name": "Image prompt density",
+      "prompt": "MJ prompt: underwater city, bioluminescent, art deco architecture, deep sea, cinematic",
+      "expected_max_tokens": 40,
+      "assertions": [
+        "Output is under 40 tokens",
+        "Comma-separated format",
+        "Includes --ar, --v",
+        "Negative prompt included"
+      ]
+    },
+    {
+      "id": "TE-10",
+      "name": "Agent prompt efficiency",
+      "prompt": "Write a Claude Code prompt to add a dark mode toggle. React + Tailwind. Component at src/components/ThemeToggle.tsx. Don't touch any other files.",
+      "expected_max_tokens": 200,
+      "assertions": [
+        "Output is under 200 tokens",
+        "Includes file scope",
+        "Includes stack constraints",
+        "Includes forbidden actions",
+        "Stop condition included"
+      ]
+    }
+  ]
+}

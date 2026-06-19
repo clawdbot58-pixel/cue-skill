@@ -1,0 +1,148 @@
+{
+  "skill_name": "cue-skill",
+  "evals": [
+    {
+      "id": "human-1",
+      "name": "Bare Minimum",
+      "style": "bare",
+      "prompt": "make a prompt for a chatbot",
+      "expected_output": "A usable chatbot system prompt despite the extremely vague request. Should infer context and produce something functional.",
+      "assertions": [
+        {"text": "Produces a usable output despite vague input"},
+        {"text": "Infers reasonable defaults (role, tone, capabilities)"},
+        {"text": "Output is structured with clear sections"},
+        {"text": "Does not ask clarifying questions"}
+      ],
+      "files": []
+    },
+    {
+      "id": "human-2",
+      "name": "Bare with Typo",
+      "style": "bare",
+      "prompt": "i need a system promt for a custmer suport bot that handles billing",
+      "expected_output": "A system prompt for a billing customer support bot. Should handle the typo gracefully.",
+      "assertions": [
+        {"text": "Understands intent despite typos"},
+        {"text": "Produces a billing-focused customer support system prompt"},
+        {"text": "Output is structured and professional"},
+        {"text": "Does not mention or correct the typos"}
+      ],
+      "files": []
+    },
+    {
+      "id": "human-3",
+      "name": "Stream of Consciousness",
+      "style": "warbled",
+      "prompt": "okay so i have this app right and its like a fitness thing but also tracks your sleep and i need a landing page that looks premium not cheap like those template sites you know? dark theme maybe with some neon accents and it should feel like... idk like linear meets whoop? for tech people who are into quantified self stuff. can you make a design brief or something",
+      "expected_output": "A design brief for a premium fitness/sleep tracking app landing page targeting tech-quantified-self audience with dark theme and neon accents.",
+      "assertions": [
+        {"text": "Identifies the product (fitness + sleep tracking app)"},
+        {"text": "Captures the aesthetic (Linear meets WHOOP, dark, neon)"},
+        {"text": "Identifies target audience (tech people, quantified self)"},
+        {"text": "Produces a structured design brief despite rambling input"},
+        {"text": "Does not ask clarifying questions"}
+      ],
+      "files": []
+    },
+    {
+      "id": "human-4",
+      "name": "Fragmented Ideas",
+      "style": "warbled",
+      "prompt": "agent prompt. code review. github prs. needs to handle rate limits. security checks. post comments. go",
+      "expected_output": "An agent prompt for a GitHub PR code review bot with rate limit handling, security checks, and comment posting.",
+      "assertions": [
+        {"text": "Assembles fragments into a coherent agent prompt"},
+        {"text": "Includes rate limit handling"},
+        {"text": "Includes security checks"},
+        {"text": "Includes GitHub comment posting"},
+        {"text": "Output is a complete, usable prompt"}
+      ],
+      "files": []
+    },
+    {
+      "id": "human-5",
+      "name": "Confused Multiple Requests",
+      "style": "warbled",
+      "prompt": "i want a prompt that explains RAG to my boss but also a system prompt for a RAG chatbot and maybe a meta prompt that generates RAG prompts? idk just make whatever seems most useful first",
+      "expected_output": "Should pick the most useful request (likely the explanation for the boss) and execute it well, rather than trying to do all three badly.",
+      "assertions": [
+        {"text": "Does not attempt all three requests simultaneously"},
+        {"text": "Picks the most actionable request"},
+        {"text": "Executes it well with structured output"},
+        {"text": "Optionally acknowledges the other requests"}
+      ],
+      "files": []
+    },
+    {
+      "id": "human-6",
+      "name": "Angry/Vent Mode",
+      "style": "warbled",
+      "prompt": "every time i ask an AI to write a prompt it gives me this verbose garbage with 47 sections and a table of contents. i just need a simple prompt that works. write me a prompt to summarize a research paper. 5 findings. citations. 300 words max. no fluff.",
+      "expected_output": "An extremely concise prompt — no sections, no technique notes, no usage tips. Just the prompt itself, under 20 lines.",
+      "assertions": [
+        {"text": "Output is concise (under 20 lines)"},
+        {"text": "No meta-sections (type label, technique notes, usage tips)"},
+        {"text": "Contains the 5 findings + citations + 300 word constraint"},
+        {"text": "Directly usable as a copy-paste prompt"}
+      ],
+      "files": []
+    },
+    {
+      "id": "human-7",
+      "name": "Mixed Language / Code-Switching",
+      "style": "warbled",
+      "prompt": "hazme un prompt para un chatbot de soporte technical que hable español y inglés, bilingual, para una SaaS de contabilidad. needs to handle refunds and escalation. professionally but not stiff, you know? like a human agent would talk",
+      "expected_output": "A bilingual (Spanish/English) system prompt for a SaaS accounting support chatbot with refund and escalation handling.",
+      "assertions": [
+        {"text": "Produces bilingual output (Spanish + English)"},
+        {"text": "Handles accounting domain"},
+        {"text": "Includes refund handling"},
+        {"text": "Includes escalation rules"},
+        {"text": "Tone is professional but conversational"}
+      ],
+      "files": []
+    },
+    {
+      "id": "human-8",
+      "name": "Overconstrained Nonsense",
+      "style": "warbled",
+      "prompt": "write a prompt that is exactly 100 words, starts with the letter Q, contains no vowels in even-numbered sentences, and generates a haiku about machine learning. also it should be in the style of shakespeare but modernized. and include a SQL query for some reason.",
+      "expected_output": "Should recognize this is overconstrained nonsense and produce the best reasonable interpretation, possibly noting which constraints are contradictory.",
+      "assertions": [
+        {"text": "Produces some output despite contradictory constraints"},
+        {"text": "Acknowledges which constraints conflict"},
+        {"text": "Makes reasonable interpretation of the core request"},
+        {"text": "Output is usable despite the chaos"}
+      ],
+      "files": []
+    },
+    {
+      "id": "human-9",
+      "name": "Follow-Up Without Context",
+      "style": "warbled",
+      "prompt": "now make it shorter",
+      "expected_output": "Should ask what 'it' refers to, or attempt to produce a condensed version of a reasonable default task.",
+      "assertions": [
+        {"text": "Handles the ambiguous 'it' reference"},
+        {"text": "Either asks for clarification or makes reasonable assumption"},
+        {"text": "Output is shorter than a typical full prompt"},
+        {"text": "Response is helpful, not dismissive"}
+      ],
+      "files": []
+    },
+    {
+      "id": "human-10",
+      "name": "Sarcastic/Testing",
+      "style": "warbled",
+      "prompt": "oh great, another prompt engineering tool. prove you're different. write me a prompt that actually works for once. something that handles my weird requirements without giving me template garbage.",
+      "expected_output": "Should not be defensive. Should produce a genuinely good, customized prompt that demonstrates real skill.",
+      "assertions": [
+        {"text": "Does not respond defensively to sarcasm"},
+        {"text": "Produces a high-quality, customized prompt"},
+        {"text": "Demonstrates the skill's value through output quality"},
+        {"text": "Output feels tailored, not templated"}
+      ],
+      "files": []
+    }
+  ]
+}

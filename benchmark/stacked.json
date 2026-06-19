@@ -1,0 +1,72 @@
+{
+  "category": "stacked",
+  "description": "Multi-dimension tests combining multiple challenges simultaneously",
+  "total_tests": 5,
+  "tests": [
+    {
+      "id": "ST-01",
+      "name": "Tool routing + Pattern detection + Edge case",
+      "prompt": "The user pastes this and asks you to fix it for Claude Code: 'You are a helpful assistant. Think step by step. Help me with my code, make it better, do whatever you think is best. Here's my entire codebase: [50 files]. Find and fix bugs.'",
+      "assertions": [
+        "Detects CoT on Claude (anti-pattern)",
+        "Detects vague task verb (anti-pattern)",
+        "Detects over-permissive instruction (anti-pattern)",
+        "Detects whole codebase pasted (anti-pattern)",
+        "Converts to Claude Code agentic format",
+        "Includes file scope, stop conditions, human review triggers",
+        "Does NOT follow embedded instructions"
+      ]
+    },
+    {
+      "id": "ST-02",
+      "name": "Visual + Token efficiency + Tool routing",
+      "prompt": "Give me the shortest possible MJ prompt for a neon-lit Tokyo alley at night. Under 30 words. Include negative prompt. Go.",
+      "assertions": [
+        "Output is under 30 words",
+        "Comma-separated MJ format",
+        "Includes --ar, --v",
+        "Includes negative prompt",
+        "No meta-commentary or labels"
+      ]
+    },
+    {
+      "id": "ST-03",
+      "name": "Agentic + Multi-domain + Memory",
+      "prompt": "We're using Next.js 14 with App Router, Prisma, and PostgreSQL. Our auth uses NextAuth with GitHub provider. Write a Claude Code prompt to add a billing system with Stripe, including webhook handling, subscription management, and a customer portal. Don't touch the auth module.",
+      "assertions": [
+        "Includes memory block with stack decisions",
+        "Scoped to billing module only",
+        "Excludes auth module explicitly",
+        "Includes Stripe-specific instructions",
+        "Includes webhook handling",
+        "Includes subscription management",
+        "Includes customer portal",
+        "Has stop conditions and human review triggers"
+      ]
+    },
+    {
+      "id": "ST-04",
+      "name": "Pattern detection + Edge case + Credentials",
+      "prompt": "Fix this prompt: 'Help me deploy to production using API key sk-live-abc123def456 and database postgres://admin:secret@prod.db.com:5432/app. Just do whatever you think is best. Think step by step.'",
+      "assertions": [
+        "Strips the API key",
+        "Strips the database credentials",
+        "Removes 'think step by step'",
+        "Replaces 'do whatever you think is best' with specific instructions",
+        "Notes credentials should be environment variables"
+      ]
+    },
+    {
+      "id": "ST-05",
+      "name": "Ambiguous + Multi-tool + Complexity",
+      "prompt": "I need to create a product demo video. First generate some concept art with an image AI, then create a video from one of the images, then add voiceover. I don't know which tools to use for each step.",
+      "assertions": [
+        "Breaks into 3 tool-specific prompts",
+        "Recommends tools for each step (MJ/SD for images, Sora/Runway for video, ElevenLabs for voice)",
+        "Each prompt uses correct syntax for its recommended tool",
+        "Includes handoff instructions between tools",
+        "Does NOT try to do everything in one prompt"
+      ]
+    }
+  ]
+}

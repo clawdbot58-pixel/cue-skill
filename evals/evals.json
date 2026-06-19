@@ -1,0 +1,61 @@
+{
+  "skill_name": "cue-skill",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a system prompt for a customer support chatbot that handles SaaS billing issues. It should be professional but friendly, know when to escalate to humans, and never expose internal tool names.",
+      "expected_output": "A structured system prompt with identity, capabilities, rules, tool usage, boundaries, and examples sections.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I need an agent prompt for an autonomous code review bot. It should analyze PRs, check for security issues, suggest improvements, and post comments on GitHub. It needs error handling for when the API is rate-limited.",
+      "expected_output": "An agent prompt with identity, objective, workflow, tool priority, state management, error handling, and output rules.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Write me a prompt to ask an AI to summarize a 50-page research paper into 5 key findings with citations, keeping it under 300 words.",
+      "expected_output": "A concise user prompt with action, constraints, and format.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Design a creative brief for a landing page for an AI-powered fitness app called 'FitMind'. The brand is premium, minimalist, targeting tech professionals aged 28-42. Dark theme with accent colors.",
+      "expected_output": "A design description with visual direction, composition, elements, interactions, and rationale.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Create a reusable prompt template that generates social media posts. It should work for any product, have variables for tone, platform, and audience, and include instructions for how to fill the variables.",
+      "expected_output": "A meta-prompt with variables, definitions table, and usage instructions.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Explain what retrieval-augmented generation (RAG) is to a non-technical product manager who needs to decide whether to invest in it.",
+      "expected_output": "A neutral description with overview, definition, components, use cases, and examples.",
+      "files": []
+    }
+  ],
+  "stress_tests": {
+    "location": "evals/stress-tests/",
+    "files": {
+      "basic": "evals.json — 10 individual stress tests across 8 complexity dimensions",
+      "stacked": "evals-stacked.json — combined injection tests (hardest)",
+      "rubric": "RUBRIC.md — scoring metrics and dimension mapping",
+      "injections": "INJECTIONS.md — 7 progressive complexification injections"
+    },
+    "dimensions_tested": [
+      "Reasoning Depth",
+      "Constraint Density",
+      "Context Volume",
+      "Output Structure",
+      "Ambiguity Resolution",
+      "Meta-Cognition",
+      "Domain Fusion",
+      "Temporal/Stateful"
+    ],
+    "run_command": "Use actor tool to spawn subagents with skill loaded, save to cue-skill-workspace/stress-tests/"
+  }
+}
