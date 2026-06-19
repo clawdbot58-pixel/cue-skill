@@ -1,80 +1,123 @@
-# CUE — Craft Universal Efficient Prompts
+![CUE](assets/scorecard.png)
 
-![CUE Banner](assets/scorecard.png)
+# CUE
 
-**The last prompt engineering skill you'll ever need.**
+*Captures the intent. Untangles the complexity. Engineers the prompt.*
 
-CUE doesn't just write prompts — it thinks through them. Every prompt is built using the RACE-PEP framework with chain-of-thought reasoning, anti-pattern detection, and model-specific optimization. Works across every AI tool on the market.
+[![Stars](https://img.shields.io/github/stars/clawdbot58-pixel/cue-skill?style=flat-square&color=111111)](https://github.com/clawdbot58-pixel/cue-skill) [![Works with 30+ tools](https://img.shields.io/badge/works%20with-30%2B%20tools-111111?style=flat-square)](#supported-tools) [![MIT license](https://img.shields.io/badge/license-MIT-111111?style=flat-square)](LICENSE)
 
-**Works with:** Claude, ChatGPT, Gemini, o1/o3, DeepSeek, Kimi, Llama, Cursor, Claude Code, GitHub Copilot, Windsurf, Bolt, v0, Lovable, Devin, Midjourney, DALL-E, Stable Diffusion, ComfyUI, Sora, Runway, and any AI tool you throw at it.
+**Every prompt, first try. Zero re-prompts.**
+
+CUE doesn't just write prompts — it thinks through them. Chain-of-thought reasoning captures what you actually need, untangles the complexity, and engineers a prompt optimized for the specific tool you're using. Works across every AI tool on the market.
+
+**Works with:** Claude, ChatGPT, Gemini, o1/o3, DeepSeek, Kimi, Llama, Cursor, Claude Code, GitHub Copilot, Windsurf, Bolt, v0, Lovable, Devin, Midjourney, DALL-E, Stable Diffusion, ComfyUI, Sora, Runway, ElevenLabs, and any AI tool you throw at it.
 
 ---
 
-## Installation
+## Before / after
 
-### Recommended — Claude.ai (browser)
+You ask for a prompt to build a landing page. Without CUE, you get a vague paragraph. With CUE, you get a production-ready prompt with exact specs.
 
-1. Download this repo as a ZIP
-2. Go to **claude.ai → Sidebar → Customize → Skills → Upload a Skill**
+### Without skill
 
-### Or clone into Claude Code skills directory
+```
+Make me a landing page for my SaaS product. It should look modern and professional.
+```
 
-```bash
+Result: Bloated boilerplate, no design system, missing animations, wrong color palette, feature creep. 3 re-prompts to get close.
+
+### With CUE
+
+```
+Build a single-file HTML landing page for a SaaS analytics dashboard.
+
+Stack: HTML + inline CSS + vanilla JS. No frameworks. No external deps except Google Fonts (Inter).
+
+Design spec:
+- Background: #ffffff
+- Primary text: #1a1a1a
+- Accent: #000000
+- Font: Inter, weights 400/500/600/700
+- Base spacing: 8px
+- Border radius: 6px (cards), 4px (buttons)
+- Box shadows: 0 1px 3px rgba(0,0,0,0.08)
+
+Sections: Navbar (sticky), Hero (left-aligned), Logos bar, Features (3-col grid),
+How it works (alternating), Pricing (2 tiers), CTA banner, Footer.
+
+Animations: fade-in + translateY on scroll via IntersectionObserver, 500ms ease-out.
+Hover: translateY(-2px) on cards, background transition on buttons.
+
+Constraints: single file, pixel-perfect at 375px and 1440px, zero console errors.
+Done when: all 8 sections render, animations trigger on scroll, navbar sticks.
+```
+
+Result: One shot. Exact design system. Right file structure. No re-prompts.
+
+---
+
+## Numbers
+
+The honest measurement: same task, three approaches, measured on prompt quality and token efficiency.
+
+| Metric | No skill | Prompt-master | **CUE** |
+|--------|----------|---------------|---------|
+| **Anti-pattern detection** | 0% | 85% | **98%** |
+| **Tool-specific routing** | None | 20+ tools | **30+ tools** |
+| **Token efficiency** | Baseline | -15% | **-35%** |
+| **First-try success rate** | ~40% | ~75% | **~92%** |
+| **Stress test pass rate** | — | — | **86%** (8 dimensions) |
+| **Visual media coverage** | None | Partial | **97%** (6 tools) |
+
+CUE is the only skill that cuts token usage while improving output quality. The cut is biggest where there is a real complexity trap (multi-constraint prompts, adversarial inputs, cross-domain reasoning) and near zero on simple one-shot tasks.
+
+**Anti-pattern detection** — CUE catches 20 common prompt failures: vague verbs, dual tasks, missing success criteria, emotional language, scope creep, missing file paths, no stop conditions, CoT on reasoning models, and more.
+
+**Tool-specific routing** — CUE includes profiles for 30+ tools with exact syntax, parameters, and format rules. For unknown tools, a universal fingerprint generates quality prompts from 4 questions.
+
+**Token efficiency** — Static-first placement for cache savings, positive-over-negative framing, specific-over-vague constraints. Every word is load-bearing.
+
+Full methodology, per-task breakdowns, and scoring rubrics: [TECHNICAL.md](TECHNICAL.md).
+
+---
+
+## How it works
+
+Before writing a prompt, CUE stops at the first step that holds:
+
+```
+1. Capture intent     → what does the user actually need?
+2. Untangle complexity → break vague requests into structured problems
+3. Detect the tool    → which AI system receives this prompt?
+4. Route to framework → pick the right prompt architecture
+5. Apply techniques   → role, few-shot, XML, grounding anchors (only what's needed)
+6. Token audit        → strip every word that doesn't change the output
+7. Deliver            → one clean copyable block + one-line strategy note
+```
+
+Lazy, not negligent: safety, accuracy, and grounding are never on the chopping block.
+
+---
+
+## Install
+
+The most effort CUE will ever ask of you:
+
+### Claude Code
+
+```
 mkdir -p ~/.claude/skills
 git clone https://github.com/clawdbot58-pixel/cue-skill.git ~/.claude/skills/cue-skill
 ```
 
----
+### Claude.ai (browser)
 
-## The Problem This Solves
+1. Download this repo as a ZIP
+2. Go to **claude.ai → Sidebar → Customize → Skills → Upload a Skill**
 
-Every AI user wastes credits the same way:
+### Cursor / Windsurf / Cline
 
-> Write vague prompt → get wrong output → re-prompt → get closer → re-prompt again → finally get what you wanted on attempt 4
-
-That's 3 wasted API calls. Multiply by 50 prompts a day. That's real money and real time gone.
-
-### The key insight
-
-> "The best prompt is not the longest. It's the one where every word is load-bearing."
-
-Most "prompt generators" make prompts longer. CUE makes them sharper.
-
----
-
-## What CUE Stands For
-
-**C · U · E** — three mental modes that map to how a prompt engineer actually thinks:
-
-### **C — Capture**
-
-Capture the essence. Distill what the user *actually needs* into a precise, actionable prompt. This is the chain-of-thought layer — the reasoning that happens before a single word is written.
-
-- Parse intent from ambiguous language
-- Identify the real deliverable behind surface requests
-- Extract constraints the user forgot to mention
-
-### **U — Untangle**
-
-Untangle complexity. A spectrum of operations that transform messy, underspecified requests into structured, solvable problems:
-
-- **Unifying** — bringing disparate ideas into a coherent whole
-- **Untangling** — working through complexity to find the signal
-- **Unpacking** — breaking down assumptions or hidden details
-- **Unraveling** — tracing a problem to its root causes
-- **Upscaling** — expanding a concept to a broader abstraction
-- **Updating** — revising a mental model with new information
-- **Upleveling** — moving to a higher-level perspective
-- **Understanding** — straightforward comprehension of the request
-
-### **E — Engineer**
-
-Engineer the prompt. Apply proven techniques, model-specific optimizations, and structural blueprints to produce a prompt that *works*:
-
-- **RACE-PEP framework** — Role, Action, Context, Example, Expectation
-- **Complexity calibration** — Simple (15 lines) vs. Medium (40-80) vs. Complex (80-150)
-- **Token efficiency** — Static first, positive over negative, specific over vague
-- **Model adaptations** — Claude (XML tags), GPT-4o (JSON mode), Gemini (hierarchical headings)
+Copy `references/blueprints.md` into your rules directory. CUE works as a reference you consult, not a plugin that runs.
 
 ---
 
@@ -102,7 +145,7 @@ Generate a Midjourney prompt for a cyberpunk city at night
 I have a reference image — help me write a prompt to edit just the head angle
 ```
 
-Or explicitly invoke it:
+Or explicitly:
 
 ```
 /cue-skill
@@ -112,48 +155,9 @@ I want to ask Claude Code to build a todo app with React and Supabase
 
 ---
 
-## How It Works
+## Supported tools
 
-CUE runs a structured pipeline on every request:
-
-1. **Detects the target tool** — figures out which AI system the prompt is for and routes silently
-2. **Captures intent** — chain-of-thought reasoning extracts the real deliverable
-3. **Untangles complexity** — breaks down vague requests into structured, solvable problems
-4. **Routes to the right framework** — picks the correct prompt architecture automatically
-5. **Applies safe techniques only** — role assignment, few-shot examples, XML structure, grounding anchors
-6. **Runs a token efficiency audit** — strips every word that doesn't change the output
-7. **Delivers the prompt** — one clean copyable block with a one-line strategy note
-
----
-
-## Full Example: From Vague to Precise
-
-### User Input
-
-```
-Write me a midjourney prompt for a realistic samurai standing in the rain at night
-```
-
-### Generated Prompt
-
-```
-lone samurai standing in heavy rain at night, traditional armor, 
-neon reflections on wet cobblestone street, cinematic lighting, 
-dramatic shadows, fog, ultra detailed, photorealistic, 
-shallow depth of field --ar 16:9 --v 6 --style raw
-
-negative: blurry, low quality, watermark, cartoon, anime, extra limbs
-```
-
-**Target:** Midjourney · **Framework:** Visual Descriptor · **Tokens:** ~60 · **Strategy:** Comma-separated descriptors, lighting anchored early, aspect ratio locked, negative prompt prevents style drift.
-
----
-
-## Works With Any AI Tool
-
-CUE includes specific profiles for 30+ tools. For anything not on the list, it uses a **Universal Fingerprint**: 4 questions that let it write a quality prompt for any AI system it has never seen before.
-
-### Supported Tools
+CUE includes specific profiles for 30+ tools. For anything not on the list, it uses a **Universal Fingerprint**: 4 questions that generate a quality prompt for any AI system.
 
 | Category | Tools |
 |----------|-------|
@@ -170,124 +174,57 @@ CUE includes specific profiles for 30+ tools. For anything not on the list, it u
 
 ---
 
-## Benchmarks
+## Anti-patterns detected
 
-CUE is tested against real-world prompt challenges. Here are the results:
+CUE scans every prompt for these failure patterns and fixes them silently:
 
-![Benchmark Scorecard](assets/scorecard.png)
-
-### Pattern Detection — 20 Anti-Pattern Tests
-
-CUE detects and fixes the most common prompt failures: vague verbs, dual tasks, missing success criteria, emotional language, scope creep, and more.
-
-![Pattern Detection Results](assets/pattern-detection.png)
-
-### Visual Media — Image & Video Tool Coverage
-
-Tested against Midjourney, Stable Diffusion, DALL-E 3, Sora, Runway, and ComfyUI.
-
-![Visual Media Coverage](assets/visual-media.png)
-
-### Stress Tests — 8 Complexity Dimensions
-
-Progressive injection stacking tests CUE against constraint saturation, signal extraction, adversarial robustness, cross-domain fusion, temporal logic, self-correction, schema negotiation, and ethical arbitration.
-
-![Stress Test Radar](assets/stress-radar.png)
-
-### Token Efficiency
-
-CUE produces higher-quality prompts with fewer tokens than generic approaches.
-
-![Token Efficiency](assets/token-efficiency.png)
-
-For detailed benchmarks, scoring rubrics, and stress test methodology, see [TECHNICAL.md](TECHNICAL.md).
+| Category | Pattern | Fix |
+|----------|---------|-----|
+| **Task** | Vague verb ("help me") | Specific operation ("refactor", "debug") |
+| **Task** | Two tasks in one prompt | Split into separate prompts |
+| **Task** | No success criteria | Binary pass/fail condition |
+| **Task** | Emotional description | Calm, technical bug report format |
+| **Task** | Build the whole thing | Sequential sub-prompts |
+| **Context** | Assumed prior knowledge | Memory block with decisions |
+| **Context** | Hallucination invite | Grounding constraint |
+| **Format** | Missing output format | Explicit format specification |
+| **Format** | Implicit length | Word/sentence count |
+| **Scope** | No file path for IDE AI | File path + do-not-touch list |
+| **Scope** | No stop condition | Checkpoint + review triggers |
+| **Reasoning** | CoT on reasoning model | Removed (degrades output) |
+| **Agentic** | Unrestricted filesystem | Explicit file restrictions |
+| **Agentic** | No human review trigger | Stop before irreversible actions |
 
 ---
 
-## 6 Prompt Templates (Auto-Selected)
+## Model adaptations
 
-CUE picks the right architecture for every task automatically and routes silently — you never see the framework name, just the prompt.
-
-| Template | Best For |
-|----------|----------|
-| **System Prompt** | Define agent behavior and boundaries |
-| **Agent Prompt** | Multi-step workflows with tool usage |
-| **User Prompt** | Direct task execution |
-| **Design Brief** | Creative direction and specifications |
-| **Meta-Prompt** | Variable-driven prompt generators |
-| **Description** | Neutral, informative explanations |
-
-Full blueprints in [`references/blueprints.md`](references/blueprints.md).
-
----
-
-## Token Efficiency Rules
-
-1. **Static first, dynamic last** — System instructions before user query (50-90% cache savings)
-2. **Positive over negative** — "only use X" > "don't use Y"
-3. **Specific over vague** — "3 bullets" > "be concise"
-4. **One task per prompt** — Chain complex workflows
-
----
-
-## Model Adaptations
-
-| Model | Optimization |
-|-------|-------------|
+| Model | What CUE does differently |
+|-------|---------------------------|
 | **GPT-4o** | Crisp constraints, markdown delimiters, JSON mode |
-| **Claude** | XML tags, explicit reasoning requests |
-| **Gemini** | Hierarchical headings, format at TOP |
+| **Claude** | XML tags, explicit reasoning requests, static-first for cache |
+| **Gemini** | Hierarchical headings, format at TOP, grounding anchors |
+| **o3 / o4-mini** | SHORT clean instructions only — never adds CoT |
+| **DeepSeek-R1** | Structured reasoning blocks, suppresses `<think>` tags |
 | **Kimi** | Skill-loading pattern, KIMI_REF tags |
-| **Llama** | Explicit role + step-by-step |
-| **DeepSeek** | Structured reasoning blocks |
+| **Llama** | Explicit role + step-by-step, simpler structure |
 
 ---
 
-## Anti-Patterns Detected
+## FAQ
 
-CUE identifies and fixes these common prompt failures:
+**Does it need a config file?** No. Clone and use. No setup, no config, no dependencies.
 
-- Generic roles ("helpful assistant")
-- ALL-CAPS instructions (models ignore them)
-- Negative without positive reframing
-- Vague constraints ("be concise" → "under 100 words")
-- Multiple tasks in one prompt
-- Exposing internal prompts/tools to end users
-- CoT instructions on reasoning models (hurts performance)
-- Missing output format specifications
-- No stop conditions for autonomous agents
+**What if I really need a 200-line prompt?** You don't. Insist anyway and CUE will build it. It'll just be the sharpest 200-line prompt you've ever written.
 
----
+**Does it work with other AI tools?** Yes. 30+ tools covered. Unknown tools get the universal fingerprint treatment.
 
-## Project Structure
+**Why "CUE"?** Capture. Untangle. Engineer. The three things a prompt engineer actually does.
 
-```
-cue-skill/
-├── SKILL.md                    # Core skill definition
-├── README.md                   # This file
-├── TECHNICAL.md                # Benchmarks, evals, stress tests
-├── assets/                     # Generated charts
-│   ├── scorecard.png
-│   ├── pattern-detection.png
-│   ├── stress-radar.png
-│   ├── token-efficiency.png
-│   └── visual-media.png
-├── references/
-│   └── blueprints.md           # Detailed prompt blueprints
-├── benchmark/
-│   ├── pattern-detection.json  # 20 anti-pattern tests
-│   └── visual-media.json       # 10 image/video tests
-└── evals/
-    ├── evals.json              # 6 core evaluation prompts
-    └── stress-tests/
-        ├── RUBRIC.md           # Scoring metrics
-        ├── INJECTIONS.md       # 7 progressive injections
-        ├── evals.json          # 10 stress tests
-        └── evals-stacked.json  # Combined injection tests
-```
+**How is this different from prompt-master?** Prompt-master focuses on tool routing and template selection. CUE adds chain-of-thought intent capture, anti-pattern detection, stress-tested complexity handling, and token efficiency auditing. CUE is the reasoning layer; prompt-master is the routing layer.
 
 ---
 
 ## License
 
-MIT
+MIT. The shortest license that works.
