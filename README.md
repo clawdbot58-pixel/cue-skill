@@ -16,8 +16,6 @@ CUE doesn't just write prompts — it thinks through them. Chain-of-thought reas
 
 ## Before / after
 
-You ask for a prompt to build a landing page. Without CUE, you get a vague paragraph. With CUE, you get a production-ready prompt with exact specs.
-
 ### Without skill
 
 ```
@@ -26,7 +24,7 @@ Make me a landing page for my SaaS product. It should look modern and profession
 
 Result: Bloated boilerplate, no design system, missing animations, wrong color palette, feature creep. 3 re-prompts to get close.
 
-### With CUE
+### With CUE (no skills installed)
 
 ```
 Build a single-file HTML landing page for a SaaS analytics dashboard.
@@ -53,6 +51,57 @@ Done when: all 8 sections render, animations trigger on scroll, navbar sticks.
 ```
 
 Result: One shot. Exact design system. Right file structure. No re-prompts.
+
+### With CUE + installed skills
+
+CUE reads your `frontend-design`, `high-end-visual-design`, and `impeccable` skills and weaves their constraints into the prompt:
+
+```
+Build a single-file HTML landing page for a SaaS analytics dashboard.
+
+Stack: HTML + inline CSS + vanilla JS. No frameworks. No external deps except Google Fonts.
+
+## Design Direction (from frontend-design skill)
+Tone: Luxury/refined. Pick a BOLD aesthetic direction — not generic "clean SaaS".
+Differentiation: What's UNFORGETTABLE? One thing someone remembers.
+
+## Visual Standards (from high-end-visual-design skill)
+BANNED: Inter, Roboto, Arial, Open Sans, Helvetica. Use Geist, Clash Display,
+PP Editorial New, or Plus Jakarta Sans instead.
+BANNED: Standard thick-stroked Lucide/FontAwesome icons. Use Phosphor Light.
+BANNED: 1px solid gray borders. Harsh dark shadows (shadow-md, rgba(0,0,0,0.3)).
+BANNED: Edge-to-edge sticky navbars. Symmetrical 3-col Bootstrap grids.
+BANNED: linear or ease-in-out transitions. Instant state changes.
+
+## Quality Standards (from impeccable skill)
+Every element must pass: visual hierarchy, information architecture, cognitive
+load check, accessibility, responsive behavior, micro-interactions.
+Typography: distinctive display font + refined body font. No generic choices.
+
+## Layout
+Asymmetric bento grid (col-span-8/col-span-4 pattern). Massive whitespace gaps.
+Floating components with soft, diffused ambient shadows.
+
+## Sections
+Navbar (NOT sticky), Hero (asymmetric), Logos bar, Features (bento grid),
+How it works (alternating), Pricing (2 tiers), CTA banner, Footer.
+
+## Animations
+fade-in + translateY on scroll via IntersectionObserver, 500ms ease-out.
+Hover: translateY(-2px) on cards, background transition on buttons.
+Micro-interactions on every interactive element.
+
+## Constraints
+Single file. Pixel-perfect at 375px and 1440px. Zero console errors.
+No CSS frameworks. No utility classes from external sources.
+All placeholder images = styled gray div elements.
+
+## Done When
+All 8 sections render. Animations trigger on scroll without layout shift.
+Navbar adds border on scroll past 60px. Hover states work on all elements.
+```
+
+Result: The prompt now references your actual skill set. Banned fonts from high-end-visual-design. Quality gates from impeccable. Design thinking from frontend-design. Not generic — built on what you already have.
 
 ---
 
@@ -121,6 +170,51 @@ Most prompt skills write prompts from scratch. CUE reads the skills you already 
 If you have a `frontend-design` skill installed and ask CUE to generate a prompt for a landing page, the generated prompt will reference your design skill's patterns and constraints — not just generic "make it look good" advice.
 
 **Works across models.** Skill reading is not Claude-specific. CUE adapts the injection format for each target model (XML tags for Claude, markdown sections for GPT, structured blocks for Gemini).
+
+### More examples
+
+**Code refactoring (with ponytail skill installed):**
+
+User input: *"Write me a prompt for Claude Code to refactor my auth module"*
+
+CUE reads the `ponytail` skill and injects its YAGNI constraints:
+
+```
+Refactor the authentication module in src/auth/.
+
+Rules (from ponytail skill):
+- YAGNI: do not add features, abstractions, or error handling beyond what exists
+- Stdlib first: use built-in functions before custom code
+- One line before fifty: prefer the shortest solution that works
+- Never cut validation, error handling, security, or accessibility
+
+Scope: only files in src/auth/. Do not touch package.json, .env, or config files.
+Current behavior: [describe what it does now]
+Desired behavior: [describe what you want]
+Stop when: existing tests pass, no new dependencies added, no files outside scope touched.
+```
+
+**Midjourney prompt (with frontend-design skill installed):**
+
+User input: *"Generate a Midjourney prompt for a cyberpunk city at night"*
+
+CUE reads `frontend-design` and adds differentiation constraints:
+
+```
+cyberpunk city at night, neon-lit alleyways, rain-slicked streets,
+holographic advertisements, dense urban architecture, volumetric fog,
+cinematic lighting, blade runner aesthetic, ultra detailed, photorealistic,
+shallow depth of field --ar 16:9 --v 6 --style raw
+
+negative: blurry, low quality, watermark, cartoon, anime, extra limbs,
+generic stock photo look, symmetrical composition
+
+Note: avoid the "generic AI cyberpunk" look. Reference specific neon color
+palettes (magenta + cyan, or amber + teal). Composition should be
+asymmetrical with a clear focal point.
+```
+
+The `frontend-design` skill's "avoid generic AI aesthetics" constraint got injected into the negative prompt strategy.
 
 ---
 
