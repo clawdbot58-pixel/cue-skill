@@ -8,7 +8,7 @@
 
 **Every prompt, first try. Zero re-prompts.**
 
-CUE doesn't just write prompts — it thinks through them. Chain-of-thought reasoning captures what you actually need, untangles the complexity, and engineers a prompt optimized for the specific tool you're using. Works across every AI tool on the market.
+CUE doesn't just write prompts — it thinks through them. Chain-of-thought reasoning captures what you actually need, untangles the complexity, and engineers a prompt optimized for the specific tool you're using. It reads your existing skills and folds them into the prompt so you get better results, not just a generic template. Works across every AI tool on the market.
 
 **Works with:** Claude, ChatGPT, Gemini, o1/o3, DeepSeek, Kimi, Llama, Cursor, Claude Code, GitHub Copilot, Windsurf, Bolt, v0, Lovable, Devin, Midjourney, DALL-E, Stable Diffusion, ComfyUI, Sora, Runway, ElevenLabs, and any AI tool you throw at it.
 
@@ -64,6 +64,7 @@ The honest measurement: same task, three approaches, measured on prompt quality 
 |--------|----------|---------------|---------|
 | **Anti-pattern detection** | 0% | 85% | **98%** |
 | **Tool-specific routing** | None | 20+ tools | **30+ tools** |
+| **Skill-aware prompting** | None | None | **Yes** |
 | **Token efficiency** | Baseline | -15% | **-35%** |
 | **First-try success rate** | ~40% | ~75% | **~92%** |
 | **Stress test pass rate** | — | — | **86%** (8 dimensions) |
@@ -96,6 +97,30 @@ Before writing a prompt, CUE stops at the first step that holds:
 ```
 
 Lazy, not negligent: safety, accuracy, and grounding are never on the chopping block.
+
+---
+
+## Skill-aware prompting
+
+Most prompt skills write prompts from scratch. CUE reads the skills you already have installed and weaves them into the generated prompt.
+
+**How it works:**
+
+1. CUE scans your installed skills (from `~/.claude/skills/`, `~/.codex/skills/`, or project-local `.claude/skills/`)
+2. Matches relevant skills to the current task using word overlap + trigger pattern extraction
+3. Injects matched skill capabilities into the generated prompt as constraints or building blocks
+4. The resulting prompt references your actual skill set, not a generic template
+
+**Why it matters:**
+
+| Approach | What happens |
+|----------|-------------|
+| **Generic prompt skill** | Writes a prompt from its own knowledge. Ignores what you already have installed. |
+| **CUE** | Reads your installed skills, references their capabilities, builds on top of them. |
+
+If you have a `frontend-design` skill installed and ask CUE to generate a prompt for a landing page, the generated prompt will reference your design skill's patterns and constraints — not just generic "make it look good" advice.
+
+**Works across models.** Skill reading is not Claude-specific. CUE adapts the injection format for each target model (XML tags for Claude, markdown sections for GPT, structured blocks for Gemini).
 
 ---
 
