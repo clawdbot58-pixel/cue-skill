@@ -330,11 +330,13 @@ CUE scans every prompt for these failure patterns and fixes them silently:
 
 ---
 
-## Loops (agentic subagent orchestration)
+## Loops & Subagents
 
 **The problem:** In agentic loops — where a main agent repeatedly spawns subagents to do tasks — every subagent prompt is a fresh context window. Constraints from earlier turns get lost. Skills get forgotten. The agent ends up re-inventing quality gates, missing banned patterns, and producing inconsistent output across iterations. The more iterations, the worse the drift.
 
-**The solution:** CUE in a loop means every subagent prompt gets the full skill stack applied, every time. No drift. No forgotten constraints. No re-prompting.
+Same issue with standalone subagent calls. A main agent delegates "write tests for X" to a subagent, but that subagent has no memory of the installed skills, the project conventions, or the constraints from the parent session. Each delegation is a cold start.
+
+**The solution:** CUE in loops and subagent calls means every delegated prompt gets the full skill stack applied, every time. No drift. No forgotten constraints. No re-prompting.
 
 ### How it works
 
@@ -352,15 +354,40 @@ CUE scans every prompt for these failure patterns and fixes them silently:
 
 ### Why this matters
 
-| Without CUE in loops | With CUE in loops |
-|---------------------|-------------------|
+| Without CUE | With CUE |
+|-------------|----------|
 | Subagent 1 gets full context | Subagent 1 gets full context |
 | Subagent 2 loses some constraints | Subagent 2 gets full context (re-crafted) |
 | Subagent 3 re-invents quality gates | Subagent 3 gets full context (re-crafted) |
 | Subagent 4 half-forgets banned patterns | Subagent 4 gets full context (re-crafted) |
 | Subagent 5: completely generic output | Subagent 5 gets full context (re-crafted) |
 
-### Example: refactoring a module across files
+### Single subagent delegation
+
+Even one-off subagent calls benefit. Instead of passing a bare task description, CUE crafts a complete prompt:
+
+```
+# Without CUE (cold delegation)
+"Write tests for the auth module"
+
+# With CUE (skill-aware delegation)
+Write tests for the authentication module in src/auth/.
+
+Rules (from ponytail skill):
+- YAGNI: do not add test infrastructure beyond what exists
+- Stdlib first: use built-in test frameworks before custom harnesses
+
+Quality gates (from impeccable skill):
+- Every test must assert both happy path and edge case
+- No test should depend on external services or network access
+
+Scope: only files in src/auth/__tests__/. Do not touch production code.
+Stop when: all tests pass, no new dependencies, no files outside scope touched.
+```
+
+The subagent gets a purpose-built prompt, not a cold task description.
+
+### Loop: multi-subagent orchestration
 
 ```
 # Main agent (Claude Code with CUE installed)
@@ -380,8 +407,9 @@ Prompt includes: structure requirements + audience constraints + no scope creep
 Each subagent gets a purpose-built prompt, not a degraded copy of the first one.
 ```
 
-### When to use CUE in loops
+### When to use CUE with subagents
 
+- **Single delegation** — one-off subagent calls get skill-aware prompts instead of cold descriptions
 - **Multi-step refactoring** — each file/feature gets a fresh, full-context prompt
 - **Code review pipelines** — reviewer subagents get consistent quality standards
 - **Test generation loops** — each test batch follows the same patterns
