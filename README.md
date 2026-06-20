@@ -330,6 +330,66 @@ CUE scans every prompt for these failure patterns and fixes them silently:
 
 ---
 
+## Loops (agentic subagent orchestration)
+
+**The problem:** In agentic loops — where a main agent repeatedly spawns subagents to do tasks — every subagent prompt is a fresh context window. Constraints from earlier turns get lost. Skills get forgotten. The agent ends up re-inventing quality gates, missing banned patterns, and producing inconsistent output across iterations. The more iterations, the worse the drift.
+
+**The solution:** CUE in a loop means every subagent prompt gets the full skill stack applied, every time. No drift. No forgotten constraints. No re-prompting.
+
+### How it works
+
+```
+1. Main agent decides a task needs a subagent
+2. Main agent runs CUE to craft the subagent prompt
+   → CUE reads installed skills (frontend-design, ponytail, impeccable, etc.)
+   → CUE applies anti-pattern detection, tool routing, token audit
+   → CUE outputs a complete prompt with all constraints baked in
+3. Subagent runs with full skill context from the start
+4. Main agent evaluates result, spawns next subagent if needed
+   → Each new subagent prompt is re-crafted by CUE
+   → No accumulated drift between iterations
+```
+
+### Why this matters
+
+| Without CUE in loops | With CUE in loops |
+|---------------------|-------------------|
+| Subagent 1 gets full context | Subagent 1 gets full context |
+| Subagent 2 loses some constraints | Subagent 2 gets full context (re-crafted) |
+| Subagent 3 re-invents quality gates | Subagent 3 gets full context (re-crafted) |
+| Subagent 4 half-forgets banned patterns | Subagent 4 gets full context (re-crafted) |
+| Subagent 5: completely generic output | Subagent 5 gets full context (re-crafted) |
+
+### Example: refactoring a module across files
+
+```
+# Main agent (Claude Code with CUE installed)
+
+# Iteration 1: CUE crafts prompt for auth module refactor
+CUE reads: ponytail skill → injects YAGNI constraints
+Prompt sent to subagent includes: YAGNI, stdlib-first, stop conditions, scope lock
+
+# Iteration 2: CUE crafts prompt for auth tests
+CUE reads: ponytail skill + impeccable skill → injects both
+Prompt includes: YAGNI + quality gates + test coverage criteria
+
+# Iteration 3: CUE crafts prompt for auth docs
+CUE reads: doc-coauthoring skill → injects workflow
+Prompt includes: structure requirements + audience constraints + no scope creep
+
+Each subagent gets a purpose-built prompt, not a degraded copy of the first one.
+```
+
+### When to use CUE in loops
+
+- **Multi-step refactoring** — each file/feature gets a fresh, full-context prompt
+- **Code review pipelines** — reviewer subagents get consistent quality standards
+- **Test generation loops** — each test batch follows the same patterns
+- **Design iteration** — design subagents maintain style consistency across rounds
+- **Any task where the main agent spawns 3+ subagents**
+
+---
+
 ## FAQ
 
 **Does it need a config file?** No. Clone and use. No setup, no config, no dependencies.
